@@ -1,12 +1,14 @@
-from rest_framework import status, viewsets
+from rest_framework import status
+from rest_framework.viewsets import ViewSet, ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from . import serializers
+from .serializers import HelloApiSerializer, UserProfileSerializer
+from .models import UserProfile
 
 
 class HelloApiView(APIView):
     """Test API View"""
-    serializer_class = serializers.HelloApiSerializer
+    serializer_class = HelloApiSerializer
 
     def get(self, request):
         """Returns a list of APIView features"""
@@ -46,9 +48,9 @@ class HelloApiView(APIView):
         return Response({'method': 'DELETE'})
 
 
-class HelloApiViewSet(viewsets.ViewSet):
+class HelloApiViewSet(ViewSet):
     """Test API ViewSet"""
-    serializer_class = serializers.HelloApiSerializer
+    serializer_class = HelloApiSerializer
 
     def list(self, request):
         """Returns a hello message"""
@@ -62,7 +64,7 @@ class HelloApiViewSet(viewsets.ViewSet):
         return Response({'message': 'Hello!', 'a_viewset': a_viewset})
 
     def create(self, request):
-        """Create a new hello message"""
+        """Creates a new hello message"""
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
@@ -91,3 +93,9 @@ class HelloApiViewSet(viewsets.ViewSet):
         """Handles removing an object"""
 
         return Response({'http_method': 'DELETE'})
+
+
+class UserProfileApiViewSet(ModelViewSet):
+    """Handles creating and updating profiles"""
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()
