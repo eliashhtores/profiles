@@ -1,14 +1,14 @@
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.viewsets import ViewSet, ModelViewSet
 from rest_framework.views import APIView
 from .models import UserProfile, ProfileFeedItem
-from .permissions import UpdateOwnProfile
+from .permissions import UpdateOwnProfile, UpdateOwnStatus
 from .serializers import HelloApiSerializer, UserProfileSerializer, ProfileFeedItemSerializer
 
 
@@ -121,7 +121,7 @@ class ProfileFeedItemViewSet(ModelViewSet):
     serializer_class = ProfileFeedItemSerializer
     queryset = ProfileFeedItem.objects.all()
     authentication_classes = (TokenAuthentication, )
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, UpdateOwnStatus)
 
     def perform_create(self, serializer):
         """Sets the user profile to the logged in user"""
