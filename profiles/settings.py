@@ -7,7 +7,7 @@ SECRET_KEY = 'django-insecure-fod@aleba4slx0=q%p%hx8m^14pq1_tuqdga6!vkle1ix#pvnd
 
 DEBUG = bool(int(os.environ.get('DEBUG', 1)))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ec2-3-82-104-20.compute-1.amazonaws.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
